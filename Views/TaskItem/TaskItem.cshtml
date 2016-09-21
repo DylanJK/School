@@ -1,0 +1,34 @@
+﻿@model WeddingsForYou.Models.Tasks
+@{
+    ViewBag.Title = "TaskItem";
+
+}
+
+<h2>TaskItem</h2>
+
+@using (Html.BeginForm())
+{
+    <div><label>Description</label></div>
+    <div>
+        @Html.TextAreaFor(m => m.description)
+        @Html.ValidationMessageFor(m => m.description)
+    </div>
+
+    <div><label>Task Status</label></div>
+    <div>
+        <select id="Complete" name="Complete">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+
+        </select> 
+    </div>
+
+    <br />
+    <input type="submit" value="Submit" />
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

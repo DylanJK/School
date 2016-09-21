@@ -1,0 +1,65 @@
+﻿@model WeddingsForYou.Models.Guests
+
+@{
+    ViewBag.Title = "EditGuestItem";
+}
+<h2>Edit Guest</h2>
+
+
+@using (Html.BeginForm())
+{
+    <div>@Html.LabelFor(m => m.GuestName)</div>
+    <div>
+        @Html.TextBoxFor(m => m.GuestName)
+        @Html.ValidationMessageFor(m => m.GuestName)
+    </div>
+
+    <div>@Html.LabelFor(m => m.GuestEmail)</div>
+    <div>
+        @Html.TextBoxFor(m => m.GuestEmail)
+        @Html.ValidationMessageFor(m => m.GuestEmail)
+    </div>
+
+
+    <div>@Html.LabelFor(m => m.GuestCeremony)</div>
+    <div>
+        <select id="GuestCeremony" name="GuestCeremony">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select> 
+    </div>
+
+    <div>@Html.LabelFor(m => m.GuestReception)</div>
+    <div>
+        <select id="GuestReception" name="GuestReception">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select> 
+    </div>
+
+    <div>@Html.LabelFor(m => m.GuestHens)</div>
+    <div>
+        <select id="GuestHens" name="GuestHens">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select> 
+    </div>
+
+    <div>@Html.LabelFor(m => m.GuestStag)</div>
+    <div>
+        <select id="GuestStag" name="GuestStag">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select> 
+    </div>
+
+
+    <br />
+    <input type="submit" value="Submit" />
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

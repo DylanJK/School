@@ -1,0 +1,113 @@
+﻿@using WeddingsForYou.Models;
+@using System.Data.SqlClient;
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "WeddingLocations";
+}
+
+<h2>WeddingLocations</h2>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#showLocationsTextBox").hide();
+        });
+
+        $("#manageLocations").click(function () {
+            $("#showLocationsTextBox").show(200);
+        });
+
+    </script>
+}
+
+@{
+    var user = Session["user"] as User;
+}
+
+@{
+
+    if (user != null)
+    {
+        string ceremonyLocation = "";
+        string receptionLocation = "";
+        string honeymoonLocation = "";
+
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WeddingsForYouDB"].ConnectionString);
+
+        con.Open();
+        SqlCommand cmd = null;
+
+        cmd = new SqlCommand("SELECT * FROM WeddingLocation WHERE Id=" + @user.Id + "", con);
+
+        cmd.ExecuteNonQuery();
+
+        SqlDataReader readLocationInfo = cmd.ExecuteReader();
+
+        using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="col-lg-4">
+                    <b><u>Wedding Ceremony</u></b>
+                </div>
+                <div class="col-lg-4">
+                    <b><u>Wedding Reception</u></b>
+                </div>
+                <div class="col-lg-4">
+                    <b><u>Honey Moon</u></b>
+                </div>
+
+
+            </div>
+
+            //Put All The Results from the Database into Variables
+            //So They Can Be called for Populating the interface
+            while (readLocationInfo.Read())
+            {
+                ceremonyLocation = (string)readLocationInfo[1];
+                receptionLocation = (string)readLocationInfo[2];
+                honeymoonLocation = (string)readLocationInfo[3];
+
+
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <b>@ceremonyLocation</b>
+                    </div>
+                    <div class="col-lg-4">
+                        <b>@receptionLocation</b>
+                    </div>
+                    <div class="col-lg-4">
+                        <b>@honeymoonLocation</b>
+                    </div>
+                    <hr style="height:1px;border:solid;color:black;background-color:black;" />
+                </div>
+
+            }
+            <div class="row">
+             <a class="btn btn-default" name="manageLocations" id="manageLocations">Manage Locations</a>
+            </div>
+        }
+    }
+}
+@using (Html.BeginForm())
+{    <div class="row">
+        <div id="showLocationsTextBox">
+            <br />
+            <label>Enter Ceremony Location</label>
+            <input type="text" name="CeremonyLocation" id="CeremonyLocation" />
+            <br />
+            <label>Enter Reception Location</label>
+            <input type="text" name="ReceptionLocation" id="ReceptionLocation" />
+            <br />
+            <label>Enter Honeymoon Locations</label>
+            <input type="text" name="HoneymoonLocation" id="HoneymoonLocation" />
+            <input type="submit" value="Submit" />
+        </div>
+    </div>
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

@@ -1,0 +1,169 @@
+﻿@using WeddingsForYou.Models;
+@using System.Data.SqlClient;
+@using System.Configuration;
+@model WeddingsForYou.Models.Tasks
+
+
+@{
+    ViewBag.Title = "ManageTasks";
+}
+@{
+    var user = Session["user"] as User;
+}
+
+<h2>ManageTasks</h2>
+
+@if (user != null)
+{
+
+    int userID = 0;
+    int itemID = 0;
+    
+    string[] lettersAndNumbers = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
+                                 "r","s","t","u","v","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M",
+                                 "N","O","P","Q","R","S","T","U","V","X","Y","Z"};
+    
+    string completedTask = "";
+    string description = "";
+
+    string taskStatus = "";
+
+    bool successOnQuery = false;
+
+    var allValue = Session["All"];
+    var completeValue = Session["Complete"] as Tasks;
+    var unCompleteValue = Session["InComplete"] as Tasks;
+
+    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WeddingsForYouDB"].ConnectionString);
+
+    con.Open();
+    SqlCommand cmd = null;
+
+    try
+    {
+        //If the User Has Selected the InComplete Button
+        if (unCompleteValue.InComplete == "inComplete")
+        {
+            cmd = new SqlCommand("SELECT * FROM Tasks WHERE Id=" + @user.Id + " AND Complete='No'", con);
+            successOnQuery = true;
+        }
+    }
+    catch
+    {
+        //If It Fails
+    }
+
+    try
+    {
+        //If the User has Selected the Complete Button
+        if (completeValue.Complete == "complete")
+        {
+            cmd = new SqlCommand("SELECT * FROM Tasks WHERE Id=" + @user.Id + " AND Complete='Yes'", con);
+            successOnQuery = true;
+        }
+    }
+    catch
+    {
+        //If It Fails
+    }
+
+    try
+    {
+        //If the User has Selected the All Button
+        if (allValue == "All")
+        {
+            cmd = new SqlCommand("SELECT * FROM Tasks WHERE Id=" + @user.Id + "", con);
+            successOnQuery = true;
+        }
+    }
+    catch
+    {
+        //If It Fails
+    }
+
+
+    //If the User Has Not Selected Any of them
+    if (successOnQuery == false)
+    {
+        cmd = new SqlCommand("SELECT * FROM Tasks WHERE Id=" + @user.Id + "", con);
+    }
+    cmd.ExecuteNonQuery();
+
+    SqlDataReader readTaskInfo = cmd.ExecuteReader();
+
+    
+    using (Html.BeginForm())
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <b><u>Description</u></b>
+            </div>
+            <div class="col-lg-4">
+                <b><u>Complete Or InComplete</u></b>
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn btn-default" value="All" name="All" id="All" />
+                <button type="submit" class="btn btn-default" value="complete" name="complete" id="complete">Complete</button>
+                <button type="submit" class="btn btn-default" value="inComplete" name="inComplete" id="inComplete">InComplete</button>
+            </div>
+            <div class="col-lg-1">
+            </div>
+        </div>
+
+        //Put All The Results from the Database into Variables
+        //So They Can Be called for Populating the interface
+        while (readTaskInfo.Read())
+        {
+            userID = (int)readTaskInfo[0];
+            itemID = (int)readTaskInfo[1];
+            //Come back to this cause it doesn't like Null
+            description = (string)readTaskInfo[2];
+            completedTask = (string)readTaskInfo[3];
+
+            //Have this to Not Produce Any Redundant Lines if there are any
+            for (int i = 0; i < lettersAndNumbers.Length; i++)
+            { 
+                
+                if (description.Contains(lettersAndNumbers[i]))
+                {
+
+                    //If taskStatus variable == Yes set it to Yes so we
+                    //Can Put match the Value against the Task Item
+                    if (completedTask.Contains("Yes"))
+                    {
+                        taskStatus = "Complete";
+                    }
+                    //If taskStatus variable == No set it to No so we
+                    //Can Put match the Value against the task Item
+                    if (completedTask.Contains("No"))
+                    {
+                        taskStatus = "InComplete";
+                    }
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <b>@description</b>
+                </div>
+                <div class="col-lg-4">
+                    <b>@taskStatus</b>
+                    <input type="radio" value="Un-Check" name="UnCheck" id="UnCheck" />
+                    <button class="btn btn-default" type="submit" value="@itemID" name="Update" id="Update">Update</button>
+                </div>
+                <div class="col-lg-4">
+                    <a class="btn btn-default" href="../EditTaskItem/EditTaskItem?taskID=@itemID" data-id="@itemID">Edit</a>
+                    <button class="btn btn-default" type="submit" value="@itemID" name="Delete" id="Delete">Delete</button>
+
+                </div>
+                <hr style="height:1px;border:solid;color:black;background-color:black;" />
+            </div>
+                   //Break out of the Forloop 
+                    break;
+                }
+               
+          }
+        }
+        <div class="row">
+            <a class="btn btn-default" href="../TaskItem/TaskItem">Add New Task</a>
+        </div>
+    }
+}

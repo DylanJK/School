@@ -1,0 +1,83 @@
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+@using WeddingsForYou.Models;
+@model WeddingsForYou.Models.ForumTopic
+
+@{
+    ViewBag.Title = "ForumTopic";
+}
+
+<h2>ForumTopic</h2>
+
+@{
+
+    var forumTopicID = Session["topicID"] as ForumTopic;
+    string bloggerName;
+    string title;
+    string description;
+
+    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WeddingsForYouDB"].ConnectionString);
+
+    con.Open();
+    //Read ForumInfo Database to Retrieve the Results for the Title matching that Id
+    SqlCommand Readcmd = new SqlCommand("SELECT * FROM ForumInfo WHERE Id="+forumTopicID.ID+"", con);
+    Readcmd.ExecuteNonQuery();
+
+    SqlDataReader readForumTitleInfo = Readcmd.ExecuteReader();
+
+    while (readForumTitleInfo.Read())
+    {
+        //Put the Title ID into a String so can be produced on the Forum
+        title = (string)readForumTitleInfo[2];
+        
+        <div class="row">
+            <u><b>@title??</b></u>
+            <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+        </div>
+    }
+
+    
+    readForumTitleInfo.Close();
+    
+    //Read from the ForumTopic Database and Match the ID of the Topic that was selected and produce
+    //All The Results of that thread with that ID
+    SqlCommand cmd = new SqlCommand("SELECT * FROM ForumTopic WHERE Id="+forumTopicID.ID+" ORDER BY Id DESC", con);
+    cmd.ExecuteNonQuery();
+
+    SqlDataReader readForumInfo = cmd.ExecuteReader();
+
+    while (readForumInfo.Read())
+    {
+        //Put the Blogger Name and Description into String So can be published on the Thread
+        bloggerName = (string)readForumInfo[1];
+        description = (string)readForumInfo[2];
+     <div class="row">
+        <br />
+        <b>Posted By: @bloggerName</b>
+         <br />
+        <b>Answer: @description</b>
+        <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+        <div class="col-lg-12"></div>
+    </div>
+    }
+
+}
+@using (Html.BeginForm())
+{
+    <div>@Html.LabelFor(m => m.bloggerPostName)</div>
+
+    <div>
+        @Html.TextBoxFor(m => m.bloggerPostName)
+        @Html.ValidationMessageFor(m => m.bloggerPostName)
+    </div>
+
+    <div>@Html.LabelFor(m => m.description)</div>
+
+    <div>
+        @Html.TextAreaFor(m => m.description)
+        @Html.ValidationMessageFor(m => m.description)
+    </div>
+
+    <br />
+    <input type="submit" value="Submit" />
+}

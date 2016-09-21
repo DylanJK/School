@@ -1,0 +1,41 @@
+﻿@model WeddingsForYou.Models.Forum
+@{
+    ViewBag.Title = "CreateTopic";
+}
+
+<h2>CreateTopic</h2>
+@using (Html.BeginForm())
+{
+    @*<div>@Html.ValidationSummary()</div>*@
+
+    <div>@Html.LabelFor(m=>m.bloggerName)</div>
+
+    <div>
+        @Html.TextBoxFor(m=>m.bloggerName)
+        @Html.ValidationMessageFor(m=>m.bloggerName)
+    </div>
+
+    <div>@Html.LabelFor(m=>m.title)</div>
+
+    <div>
+        @Html.TextBoxFor(m=>m.title)
+        @Html.ValidationMessageFor(m => m.title)
+    </div>
+
+    <div>@Html.LabelFor(m=>m.subHeading)</div>
+
+    <div>
+        @Html.TextAreaFor(m => m.subHeading)
+        @Html.ValidationMessageFor(m => m.subHeading)
+    </div>
+
+    <br />
+    <input type="submit" value="CreateTopic" />
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}
+

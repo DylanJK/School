@@ -1,0 +1,202 @@
+﻿@using WeddingsForYou.Models;
+@using System.Data.SqlClient;
+@using System.Configuration;
+@using WeddingsForYou.Models;
+
+
+<link rel="stylesheet" type="text/css" href="../Content/Site.css">
+@{
+    ViewBag.Title = "Directory";
+}
+
+@section scripts {
+<script type="text/javascript">
+    $(function () {
+        $.getJSON("/Directory/Region/List", function (data) {
+            var items;
+            $.each(data, function (i, city) {
+                items += "<option value='" + city.Value + "'>" + city.Text + "</option>";
+            });
+            $("#Region").html(items);
+        });
+
+            $.getJSON("/Directory/States/List/" + $("#Region > option:selected").attr("value"), function (data) {
+                var items;
+                $.each(data, function (i, category) {
+                    items += "<option value='" + category.Value + "'>" + category.Text + "</option>";
+                $("#Category").html(items);
+            });
+        });
+    });
+</script>
+}
+
+@using (Html.BeginForm())
+{
+   
+    <br />
+    <br />
+    <label for="Region">Region</label>
+    <select id="Region" name="Region"></select>
+    <br />
+    <label for="Category">Category</label>
+    <select id="Category" name="Category"></select>
+    <br />
+
+    <input type="submit" value="Search" class="btn btn-default" />
+
+}
+
+@{
+
+    string categoryName = "";
+    string cityRegion = "";
+    
+    var region = Session["regionDetails"] as Region;
+    var category = Session["categoryDetails"] as Category;
+
+    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WeddingsForYouDB"].ConnectionString);
+    SqlCommand Readcmd = null;
+
+    if (region != null && category != null)
+    {
+       
+        string title;
+
+        string[] splitDetails;
+
+
+        con.Open();
+
+        //Regions
+        if(region.RegionCode == "AU")
+        {
+            cityRegion = "Auckland";
+        }
+        if (region.RegionCode == "CH")
+        {
+            cityRegion = "Christchurch";
+        }
+        if (region.RegionCode == "DN")
+        {
+            cityRegion = "Dunedin";
+        }
+        if (region.RegionCode == "HM")
+        {
+            cityRegion = "Hamilton";
+        }
+        if (region.RegionCode == "WT")
+        {
+            cityRegion = "Wellington";
+        }
+        //End of Those if statements
+        
+        //Categories
+        if(category.CategoryID == 1)
+        {
+            categoryName = "Beverages";
+        }
+        if (category.CategoryID == 2)
+        {
+            categoryName = "Cakes";
+        }
+        if (category.CategoryID == 3)
+        {
+            categoryName = "Cateres";
+        }
+        if (category.CategoryID == 4)
+        {
+            categoryName = "Churches";
+        }
+        if (category.CategoryID == 5)
+        {
+            categoryName = "CeremonyVenues";
+        }
+        if (category.CategoryID == 6)
+        {
+            categoryName = "BridalCars";
+        }
+        if (category.CategoryID == 7)
+        {
+            categoryName = "BridalShoes";
+        }
+        if (category.CategoryID == 8)
+        {
+            categoryName = "Florists";
+        }
+        if (category.CategoryID == 9)
+        {
+            categoryName = "DanceLessons";
+        }
+        if (category.CategoryID == 10)
+        {
+            categoryName = "MensWear";
+        }
+        if (category.CategoryID == 11)
+        {
+            categoryName = "ReceptionVenues";
+        }
+        if (category.CategoryID == 12)
+        {
+            categoryName = "Photographers";
+        }
+        if (category.CategoryID == 13)
+        {
+            categoryName = "LiveMusic";
+        }
+        if (category.CategoryID == 14)
+        {
+            categoryName = "Accomodation";
+        }
+        //End of Categories
+        
+
+        Readcmd = new SqlCommand("SELECT "+categoryName+" FROM "+cityRegion+"", con);
+        
+
+        Readcmd.ExecuteNonQuery();
+        
+
+        SqlDataReader readDirectory = Readcmd.ExecuteReader();
+        
+        while (readDirectory.Read())
+        {
+
+            title = (string)readDirectory[0];
+            
+            if(title == "")
+            {
+                //Break out if the Title is Null Other wise it could potentially crash the program
+                break;
+            }
+            
+            splitDetails = title.Split(',');
+
+
+            <div class="row directoryPrint">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <b>@splitDetails[0]</b>
+                    <br />
+                    <b>Address: @splitDetails[1]</b>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <b>@splitDetails[2]</b>
+                    <br />
+
+                    @try 
+                    { 
+                    <b>@splitDetails[3]</b>
+                    }
+                    catch
+                    {
+                        //Do Nothing
+                    }
+                </div>
+                <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+
+            </div>
+        }
+
+    }
+
+}

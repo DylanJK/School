@@ -1,0 +1,128 @@
+﻿@using WeddingsForYou.Models;
+@using System.Data.SqlClient;
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "ManageGuests";
+}
+@{
+    var user = Session["user"] as User;
+}
+
+<h2>ManageGuests</h2>
+
+
+@{
+
+if (user != null)
+{
+    int id = 0;
+    int guestID = 0;
+    string guestName = "";
+    string guestEmail = "";
+    string ceremony = "";
+    string reception = "";
+    string hens = "";
+    string stag = "";
+
+    string[] lettersAndNumbers = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
+                                 "r","s","t","u","v","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M",
+                                 "N","O","P","Q","R","S","T","U","V","X","Y","Z"};
+    
+    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WeddingsForYouDB"].ConnectionString);
+
+    con.Open();
+    SqlCommand cmd = null;
+    
+    cmd = new SqlCommand("SELECT * FROM Guests WHERE Id=" + @user.Id + "", con);
+  
+    cmd.ExecuteNonQuery();
+
+    SqlDataReader readGuestInfo = cmd.ExecuteReader();
+
+    using (Html.BeginForm())
+    {
+        <div class="row">
+            <div class="col-lg-3">
+                <b><u>Name</u></b>
+            </div>
+            <div class="col-lg-3">
+                <b><u>Email</u></b>
+            </div>
+            <div class="col-lg-1">
+                <b><u>Ceremony</u></b>
+            </div>
+            <div class="col-lg-1">
+                <b><u>Reception</u></b>
+            </div>
+            <div class="col-lg-1">
+                <b><u>Hens</u></b>
+            </div>
+            <div class="col-lg-1">
+                <b><u>Stag</u></b>
+            </div>
+
+            <div class="col-lg-2">
+            </div>
+        </div>
+
+        //Put All The Results from the Database into Variables 
+        //So They Can Be called for Populating the interface
+        while (readGuestInfo.Read())
+        {
+            id = (int)readGuestInfo[0];
+            guestID = (int)readGuestInfo[1];
+            guestName = (string)readGuestInfo[2];
+            guestEmail = (string)readGuestInfo[3];
+            ceremony = (string)readGuestInfo[4];
+            reception = (string)readGuestInfo[5];
+            hens = (string)readGuestInfo[6];
+            stag = (string)readGuestInfo[7];
+
+          //Make it go through here and check if the value is not null and contains legal characters
+          //So we will no if to produce the result or not  
+          for (int i = 0; i < lettersAndNumbers.Length; i++)
+          { 
+                
+            if (guestName.Contains(lettersAndNumbers[i]))
+             {
+            <div class="row">
+                <div class="col-lg-3">
+                    <b>@guestName</b>
+                </div>
+                <div class="col-lg-3">
+                    <b>@guestEmail</b>
+                </div>
+                <div class="col-lg-1">
+                    <b>@ceremony</b>
+                </div>
+                <div class="col-lg-1">
+                    <b>@reception</b>
+                </div>
+                <div class="col-lg-1">
+                    <b>@hens</b>
+                </div>
+                <div class="col-lg-1">
+                    <b>@stag</b>
+                </div>
+                <div class="col-lg-2">
+                    <a class="btn btn-default" href="../EditGuestItem/EditGuestItem?guestID=@guestID" data-id="@guestID">Edit</a>
+                    <button class="btn btn-default" type="submit" value="@guestID" name="Delete" id="Delete">Delete</button>
+                 
+                </div>
+                <hr style="height:1px;border:solid;color:black;background-color:black;" />
+            </div>
+            
+                //Break Out of the Forloop once its gone through here
+                 break;
+              }
+           }
+
+        }
+         <div class="row">
+             <a class="btn btn-default" href="../GuestItem/GuestItem?id=@id" data-id="@id" >Add Guest</a>
+             <button class="btn btn-default" type="submit" value="SendInvitations" name="SendInvitations" id="SendInvitations">Send Invites</button>
+         </div>
+       }
+    }
+}

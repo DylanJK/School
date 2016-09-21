@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "MockUpPlan";
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#showOptions1").hide();
+            $("#showOptions2").hide();
+            $("#showOptions3").hide();
+        });
+
+        $("#manageBudget").click(function () {
+
+            var budgetAmountValue = document.getElementById('budgetAmount').value;
+            var bVal = parseInt(budgetAmountValue);
+
+            //Produce the Option if the user wants a wedding Over $10,000
+            if (bVal >= 10000 & bVal < 20000)
+            {
+                $("#showOptions2").hide();
+                $("#showOptions3").hide();
+                $("#showOptions1").show(200);
+            }
+            //Produce the Option if the user wants a wedding Over $20,000
+            if (bVal >= 20000 & bVal < 30000)
+            {
+                $("#showOptions1").hide();
+                $("#showOptions3").hide();
+                $("#showOptions2").show(200);
+            }
+            //Produce the Option if the user wants a wedding Over $30,000
+            if (bVal >= 30000) {
+                $("#showOptions1").hide();
+                $("#showOptions2").hide();
+                $("#showOptions3").show(200);
+            }
+
+
+        });
+
+    </script>
+
+}
+
+<h2>MockUpPlan</h2>
+
+<div class="row">
+    <div id="showBudgetTextBox">
+        <br />
+        <label>Enter Budget Amount $</label>
+        <input type="text" name="budgetAmount" id="budgetAmount" />
+        <button name="manageBudget" id="manageBudget">Submit</button>  
+    </div>
+</div>
+
+<div id="showOptions1">
+    <div class="row directoryPrint">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <b>You Can Have a Wedding in : Auckland,Hamilton, Dunedin, Christchurch, Wellingnton.</b>
+            <br />
+            <br />
+            <b>The Wedding Can be held inside and can hold up to :90-110 Guests</b>
+            <br />
+            <br />
+            <b>You Can Have the Wedding outside and can hold up to 200 People</b>
+            <br />
+            <br />
+            <b>Comes with a Main Meal For Everyone</b>
+        </div>
+    </div>
+</div>
+<div id="showOptions2">
+    <div class="row directoryPrint">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <b>You Can Have a Wedding in : Auckland,Hamilton, Dunedin, Christchurch, Wellingnton.</b>
+            <br />
+            <br />
+            <b>The Wedding Can be held inside and can hold up to :140-180 Guests</b>
+            <br />
+            <br />
+            <b>You Can Have the Wedding outside and can hold up to 250 People</b>
+            <br />
+            <br />
+            <b>Comes with a Main Meal For Everyone</b>
+        </div>
+    </div>
+</div>
+<div id="showOptions3">
+    <div class="row directoryPrint">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <b>You Can Have a Wedding in : Auckland,Hamilton, Dunedin, Christchurch, Wellingnton.(with a view of the sea)</b>
+            <br />
+            <br />
+            <b>The Wedding Can be held inside and can hold up to :140-180 Guests</b>
+            <br />
+            <br />
+            <b>You Can Have the Wedding outside and can hold up to 250 People(with a fireworks ceremony)</b>
+            <br />
+            <br />
+            <b>You Can Have a Choice from choosing the types of entree's from seafood to savouries as well as a main meal for everyone</b>
+        </div>
+    </div>
+</div>

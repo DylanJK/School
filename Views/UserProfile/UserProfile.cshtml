@@ -1,0 +1,32 @@
+﻿@model WeddingsForYou.Models.Register
+
+@{
+    ViewBag.Title = "UserProfile";
+}
+
+<h2>UserProfile</h2>
+@using (Html.BeginForm())
+{
+
+    <div>@Html.LabelFor(m => m.Password)</div>
+
+    <div>
+        @Html.PasswordFor(m => m.Password)
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+
+    <div>@Html.LabelFor(m => m.ReEnterPassword)</div>
+
+    <div>
+        @Html.PasswordFor(m => m.ReEnterPassword)
+        @Html.ValidationMessageFor(m => m.ReEnterPassword)
+    </div>
+
+    <input type="submit" value="UserProfile" />
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

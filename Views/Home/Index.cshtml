@@ -1,0 +1,594 @@
+﻿@using WeddingsForYou.Models;
+@using System.Data.SqlClient;
+@using System.Configuration;
+
+<link rel="stylesheet" type="text/css" href="../Content/Site.css">
+@{
+    ViewBag.Title = "Home Page";
+}
+@{
+        var user = Session["user"] as User;
+}
+
+
+
+
+@*If No User is Logged in Produce the Standard Home page*@
+@if(user == null)
+{
+    
+    
+  <div class="container">
+  <br>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#myCarousel" data-slide-to="4"></li>
+      <li data-target="#myCarousel" data-slide-to="5"></li>
+      <li data-target="#myCarousel" data-slide-to="6"></li>
+      <li data-target="#myCarousel" data-slide-to="7"></li>
+      <li data-target="#myCarousel" data-slide-to="8"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+
+      <div class="item active">
+          <center><img src="../Images/how_romantic.jpg" alt="wedding" width="460" height="345"></center>
+        <div class="carousel-caption">
+          <h3>Romantic</h3>
+          <p>Romantic wedding nights.</p>
+        </div>
+      </div>
+
+        <div class="item">
+            <center><img src="../Images/beach_wedding_phuket.jpg" alt="Chania" width="460" height="345"></center>
+            <div class="carousel-caption">
+                <h3>Venue</h3>
+                <p>Amazing beach wedding in Phuket.</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <center><img src="../Images/beach.jpg" alt="Chania" width="460" height="345"></center>
+            <div class="carousel-caption">
+                <h3>Venue</h3>
+                <p>Amazing venues right on the beach.</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <center><img src="../Images/1.jpg" alt="Chania" width="460" height="345"></center>
+            <div class="carousel-caption">
+                <h3>Venue</h3>
+                <p>Amazing venues right on the beach front.</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <center><img src="../Images/2.jpg" alt="Chania" width="460" height="345"></center>
+            <div class="carousel-caption">
+                <h3>Catering</h3>
+                <p>We cater to make your special day remembered by everyone.</p>
+            </div>
+        </div>
+
+      <div class="item">
+          <center><img src="../Images/elephant_73977_514334.jpg" alt="Chania" width="460" height="345"></center>
+        <div class="carousel-caption">
+          <h3>Brides</h3>
+          <p>Plan your special day with us.</p>
+        </div>
+      </div>
+    
+      <div class="item">
+          <center><img src="../Images/vintage_wedding_car.jpg" alt="Flower" width="460" height="345"></center>
+        <div class="carousel-caption">
+          <h3>Cars</h3>
+          <p>Amazing vintage style wedding cars.</p>
+        </div>
+      </div>
+
+      <div class="item">
+          <center><img src="../Images/wedding_ceremony.jpg" alt="Flower" width="460" height="345"></center>
+        <div class="carousel-caption">
+          <h3>Ceremony</h3>
+          <p>Beatiful wedding ceremonys.</p>
+        </div>
+      </div>
+  
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Wedding Ceremony Receptions</h4>
+            <img src="../Images/WeddingImages.jpg" width="100" height="100" />
+            <p style="font-size:14px;">
+                Do you want your wedding ceremony recpeption to stand out from others, simply click below to view a range of possible ideas for your perfect day.
+            </p>
+            <p><a class="btn btn-default" href="../Login/Login">View Now!</a></p>
+        </div>
+        <div class="col-md-4">
+            <h4>Honey Moon Destinations</h4>
+            <img src="../Images/3dheart.jpg" width="100" height="100" />
+            <p style="font-size:14px;">Do you want a lucious place to spend your honeymoon, we give great advice in helping you find your perfect location wether it from the jungle in South Africa or in clear blue tropic waters of bora bora. simply click the button to view some possible options. </p>
+            <p><a class="btn btn-default" href="../Login/Login">View Now!</a></p>
+        </div>
+        <div class="col-md-4">
+            <h4>Wedding Cakes</h4>
+            <img src="../Images/cake.jpg" width="100" height="100" />
+            <p style="font-size:14px;">You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="../Login/Login">View Now!</a></p>
+         </div>
+    </div>
+     
+    
+}
+
+
+  
+//If there is a User Logged in bring up the Dashboard where they can Manage all the data
+else
+{
+
+    int userType = 0;
+
+    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WeddingsForYouDB"].ConnectionString);
+
+    con.Open();
+    SqlCommand cmd = null;
+
+
+    cmd = new SqlCommand("SELECT * FROM LoginInformation WHERE Id=" + @user.Id + "", con);
+    cmd.ExecuteNonQuery();
+
+
+    SqlDataReader readLoginInfo = cmd.ExecuteReader();
+
+    while (readLoginInfo.Read())
+    {
+        try
+        {
+            //Get the User Type Whether it is a Client or Customer
+            userType = (int)readLoginInfo[1];
+        }
+        catch
+        {
+            //If There Is No Value
+        }
+    }
+
+    readLoginInfo.Close();
+    
+    //If the it is a Cusomter
+    if(userType == 1)
+    { 
+    
+    //For the Budget Home Page Section
+    string[] amountofCost;
+    
+    double cost;
+    string paid;
+
+    double budgetAmount = 0;
+
+    double allOfPaidValues = 0;
+    double amountAllocated = 0;
+    
+    List<String> paidCost = new List<string>();
+    List<int> totalOfAllPaid = new List<int>();
+    
+        
+    cmd = new SqlCommand("SELECT Cost, Paid, bAmount FROM Budget WHERE Id="+@user.Id+"", con);
+    cmd.ExecuteNonQuery();
+
+    SqlDataReader readBudgetInfo = cmd.ExecuteReader();
+
+    while (readBudgetInfo.Read())
+    {
+        cost = (double)readBudgetInfo[0];
+        paid = (string)readBudgetInfo[1];
+        if (paid == "Yes")
+        {
+            paidCost.Add(paid + cost.ToString());
+        }
+        budgetAmount = (double)readBudgetInfo[2];
+    }
+    
+    //Get the Individual Payments Made
+    for (int i = 0; i < paidCost.Count; i++)
+    {
+        amountofCost = paidCost[i].Split('s');
+        totalOfAllPaid.Add(Convert.ToInt32(amountofCost[1]));
+    }
+
+    //Get the Total of the Amount the User Has Paid So Far
+    for (int i = 0; i < totalOfAllPaid.Count; i++)
+    {
+        allOfPaidValues += totalOfAllPaid[i];   
+    }
+
+    //Get the Amount Allocated As in How much Left To Spend
+    amountAllocated = budgetAmount - allOfPaidValues;
+
+
+    readBudgetInfo.Close();
+    
+    //End of that
+
+/********************************************/
+    //For the Task Section
+
+    string taskComplete = "";
+
+    List<string> taskCompleteCount = new List<string>();
+    int totalOfAllTasks = 0;
+    int amountCompleted = 0;
+    
+
+    cmd = new SqlCommand("SELECT Complete FROM Tasks WHERE Id=" + @user.Id + "", con);
+    cmd.ExecuteNonQuery();
+
+
+    SqlDataReader readTaskInfo = cmd.ExecuteReader();
+
+    while (readTaskInfo.Read())
+    {
+        taskComplete = (string)readTaskInfo[0];
+
+        if (taskComplete.Contains("Yes"))
+        {
+            taskCompleteCount.Add(taskComplete);
+        }
+
+        //Have This Here To Make it Not Come Up With an Error of Result
+        if (taskComplete.Contains("Yes") || taskComplete.Contains("No"))
+        {
+            totalOfAllTasks++;
+        }
+    }
+
+    readTaskInfo.Close();
+    //End of That
+    
+    /**********************************************/
+    
+    //For the Guest Section
+    //*****************************
+
+    int amountOfGuests = 0;
+    int amountOfGuestsCeremony = 0;
+    int amountOfGuestsReception = 0;
+    int amountOfGuestsHens = 0;
+    int amountOfGuestsStag = 0;
+
+    string guestsCeremony = "";
+    string guestsReception = "";
+    string guestsHens = "";
+    string guestsStag = "";
+
+
+    cmd = new SqlCommand("SELECT * FROM Guests WHERE Id=" + @user.Id + "", con);
+    cmd.ExecuteNonQuery();
+
+
+    SqlDataReader readGuestInfo = cmd.ExecuteReader();
+
+    while (readGuestInfo.Read())
+    {
+        guestsCeremony = (string)readGuestInfo[4];
+        guestsReception = (string)readGuestInfo[5];
+        guestsHens = (string)readGuestInfo[6];
+        guestsStag = (string)readGuestInfo[7];
+        
+        //Increment Values so We Can get the Number Guests attending certain events to the wedding
+        if(guestsCeremony.Contains("Yes"))
+        {
+            amountOfGuestsCeremony++;
+        }
+        if (guestsReception.Contains("Yes"))
+        {
+            amountOfGuestsReception++;
+        }
+        if (guestsHens.Contains("Yes"))
+        {
+            amountOfGuestsHens++;
+        }
+        if (guestsStag.Contains("Yes"))
+        {
+            amountOfGuestsStag++;
+        }
+        
+        //Have This Here To Make it Not Come Up With an Error of Result
+        if (guestsCeremony.Contains("Yes") || guestsCeremony.Contains("No"))
+        {
+            amountOfGuests++;
+        }
+    }
+
+    readGuestInfo.Close();
+    //End of That
+
+    /**********************************************/
+
+    //For the WeddingTables Section
+    //*****************************
+
+    int seatsTaken = 0;
+    int totalTables = 0;
+    int seatsLeftToAllocate = 0;
+
+    string tableName = "";
+
+    string[] lettersAndNumbers = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
+                                 "r","s","t","u","v","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M",
+                                 "N","O","P","Q","R","S","T","U","V","X","Y","Z"};
+
+    cmd = new SqlCommand("SELECT * FROM WeddingTables WHERE Id=" + @user.Id + "", con);
+    cmd.ExecuteNonQuery();
+
+
+    SqlDataReader readWeddingTablesInfo = cmd.ExecuteReader();
+
+    while (readWeddingTablesInfo.Read())
+    {
+        tableName = (string)readWeddingTablesInfo[2];
+        seatsTaken += (int)readWeddingTablesInfo[3];
+
+        for (int i = 0; i < lettersAndNumbers.Length; i++)
+        {
+            //Have This Here To Make it Not Come Up With an Error of Result
+            if (tableName.Contains(lettersAndNumbers[i]))
+            {
+                totalTables++;
+                //Break out of the Forloop so it can then go to the next row in the database
+                break;
+            }
+        }
+    }
+
+    //Get the Total amount of seats left to allocate
+    seatsLeftToAllocate = amountOfGuests - seatsTaken;
+    
+    readWeddingTablesInfo.Close();
+    //End of That
+
+    //******************************** 
+
+    //For the WeddingLocation Section
+    //*****************************
+
+    string ceremonyLocation = "";
+    string receptionLocation = "";
+    string honeymoonLocation = "";
+
+    cmd = new SqlCommand("SELECT * FROM WeddingLocation WHERE Id=" + @user.Id + "", con);
+    cmd.ExecuteNonQuery();
+
+
+    SqlDataReader readWeddingLocationInfo = cmd.ExecuteReader();
+
+    while (readWeddingLocationInfo.Read())
+    {
+        ceremonyLocation = (string)readWeddingLocationInfo[1];
+        receptionLocation = (string)readWeddingLocationInfo[2];
+        honeymoonLocation = (string)readWeddingLocationInfo[3];
+
+    }
+
+    readWeddingLocationInfo.Close();
+    //End of That
+
+    //******************************** 
+    
+    //Countdown Part
+    //***************
+
+    int year = 0;
+    int month = 0;
+    int day = 0;
+    int timeHour = 0;
+    int timeMinute = 0;
+
+    
+    DateTime dateToday = DateTime.Now;
+   // DateTime value = new DateTime(2015, 6, 18, 15,30,0);
+    
+    
+    
+    cmd = new SqlCommand("SELECT * FROM CountDown WHERE Id=" + @user.Id + "", con);
+    cmd.ExecuteNonQuery();
+
+
+    SqlDataReader readCountDownInfo = cmd.ExecuteReader();
+
+    while (readCountDownInfo.Read())
+    {
+        year = (int)readCountDownInfo[1];
+        month = (int)readCountDownInfo[2];
+        day = (int)readCountDownInfo[3];
+        timeHour = (int)readCountDownInfo[4];
+        timeMinute = (int)readCountDownInfo[5];
+
+    }
+    DateTime value = new DateTime();
+    try
+    {
+         value = new DateTime(year, month, day, timeHour, timeMinute, 0);
+       
+    }
+    catch
+    {
+        //If there is no data in the Database regarding time of wedding
+    }
+    
+        //Get the The countdown until the wedding
+        var timeUntilWedding = value - dateToday;
+
+        //Split the Variable into a string array so we can assign in to the screen by days minutes hours etc
+        string timeTilWeddingString = timeUntilWedding.ToString();
+        string[] splitDays = timeTilWeddingString.Split('.',':');
+
+    readCountDownInfo.Close();
+
+    //***************
+    
+    <h2>@user.Name 's Dashboard</h2>
+    <div class="row">
+        <div class="col-md-4 col-xs-12 dashBoxes">
+                <h4>Count Down</h4>
+                <b>Time Until Wedding: 
+                    @if (year != 0)
+                     { 
+                       <b>@splitDays[0] Days</b> 
+                       <b>@splitDays[1] Hours</b> 
+                       <b>@splitDays[2] Minutes</b> 
+                       <b>@splitDays[3] Seconds</b>
+                    }
+                </b>
+                <br />
+                <a class="btn btn-default" href="../CountDown/CountDown">Manage Date</a>
+        </div>
+
+        <div class="col-md-4 col-xs-12 dashBoxes">
+            <h4>Tasks</h4>
+            <b>@totalOfAllTasks Tasks To Do @taskCompleteCount.Count Completed</b>
+            <br />
+            <a class="btn btn-default" href="../ManageTasks/ManageTasks">Manage Tasks</a>
+        </div>
+
+        <div class="col-md-4 col-xs-12 dashBoxes">
+            <h4>Budget</h4>
+            <b>Amount Paid: $@allOfPaidValues</b>
+            <br />
+            <b>Allocated: $@amountAllocated </b>
+            <br />
+            <b>Budget Amount: $@budgetAmount</b>
+            <br />
+            <a class="btn btn-default" href="/Budget/Budget">Manage Budget</a>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-12 dashBoxes">
+            <h4>Guests</h4>
+            <b>Ceremony Guests: @amountOfGuestsCeremony</b>
+            <br />
+            <b>Reception Guests: @amountOfGuestsReception</b>
+            <br />
+            <b>Hens Guests: @amountOfGuestsHens</b>
+            <br />
+            <b>Stag Guests: @amountOfGuestsStag</b>
+            <br />
+            <b>Total Guests: @amountOfGuests</b>
+            <br />
+            <a class="btn btn-default" href="../ManageGuests/ManageGuests">Manage Guests</a>
+        </div>
+
+        <div class="col-md-4 col-xs-12 dashBoxes">
+            <h4>Table and Seating</h4>
+            <b>Total Tables: @totalTables</b>
+            <br />
+            <b>Total Seats Taken: @seatsTaken</b>
+            <br />
+            <b>Seats Left To Allocate: @seatsLeftToAllocate</b>
+            <br />
+            <a class="btn btn-default" href="../GuestTables/GuestTables">Manage Seating</a>
+        </div>
+
+        <div class="col-md-4 col-xs-12 dashBoxes">
+            <h4>Location</h4>
+            <b>Wedding Ceremony Location: @ceremonyLocation</b>
+            <br />
+            <b>Wedding Reception Location: @receptionLocation</b>
+            <br />
+            <b>Honeymoon Location: @honeymoonLocation</b>
+            <br />
+            <a class="btn btn-default" href="../WeddingLocations/WeddingLocations">Manage Location</a>
+        </div>
+    </div>
+}
+    else
+    {
+        using (Html.BeginForm())
+        {
+        <h2>@user.Name 's Client Dashboard</h2>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 dashBoxes">
+                <label>City:</label>
+                <br />
+                <select id="City" name="City">
+                    <option value="Auckland">Auckland</option>
+                    <option value="Hamilton">Hamilton</option>
+                    <option value="Dunedin">Dunedin</option>
+                    <option value="Christchurch">Christchurch</option>
+                    <option value="Wellington">Wellington</option>
+                </select>
+                <br />
+                <label>Category:</label>
+                <br />
+                <select id="Category" name="Category">
+                    <option value="Beverages">Beverages</option>
+                    <option value="Cakes">Cakes</option>
+                    <option value="Cateres">Cateres</option>
+                    <option value="Churches">Churches</option>
+                    <option value="BridalCars">BridalCars</option>
+                    <option value="BridalShoes">BridalShoes</option>
+                    <option value="Florists">Florists</option>
+                    <option value="DanceLessons">DanceLessons</option>
+                    <option value="ReceptionVenues">ReceptionVenues</option>
+                    <option value="Photographers">Photographers</option>
+                    <option value="LiveMusic">LiveMusic</option>
+                    <option value="Accomodation">Accomodation</option>
+                </select>
+                <br />
+                <label>Place Name:</label>
+                <br />
+                <input type="text" name="placeName" id="placeName" />
+                <br />
+                <label>Address:</label>
+                <br />
+                <input type="text" name="Address" id="Address" />
+                <br />
+                <label>Phone:</label>
+                <br />
+                <input type="text" name="Phone" id="Phone" />
+                <br />
+                <label>Email:</label>
+                <br />
+                <input type="text" name="Email" id="Email" />
+                <br />
+                <br />
+                <input type="submit" value="Submit" class="btn btn-default" />
+        
+            </div>
+        </div>
+            if (!String.IsNullOrEmpty(ViewBag.Status))
+            {
+                <div>
+                    @ViewBag.Status
+                </div>
+            }
+        }
+        
+    }
+    
+}
+
+

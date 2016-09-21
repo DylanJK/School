@@ -1,0 +1,31 @@
+﻿@model WeddingsForYou.Models.WeddingTables
+
+@{
+    ViewBag.Title = "EditGuestTables";
+}
+
+<h2>EditGuestTables</h2>
+
+@using (Html.BeginForm())
+{
+    <div>@Html.LabelFor(m => m.TableName)</div>
+    <div>
+        @Html.TextBoxFor(m => m.TableName)
+        @Html.ValidationMessageFor(m => m.TableName)
+    </div>
+
+    <div>@Html.LabelFor(m => m.SeatAmount)</div>
+    <div>
+        @Html.TextBoxFor(m => m.SeatAmount)
+        @Html.ValidationMessageFor(m => m.SeatAmount)
+    </div>
+
+    <br />
+    <input type="submit" value="Submit" />
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

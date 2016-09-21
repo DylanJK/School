@@ -1,0 +1,46 @@
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "Forum";
+}
+
+<h2>Forum</h2>
+<body>
+  <a class="btn btn-default" href="../CreateTopic/CreateTopic">Create New Topic</a>
+  <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+</body>
+@{
+    int id = 0;
+    string bloggerName;
+    string title;
+    string subHeaing;
+    
+    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WeddingsForYouDB"].ConnectionString);
+
+    con.Open();
+    SqlCommand cmd = new SqlCommand("SELECT * FROM ForumInfo ORDER BY Id DESC", con);
+    cmd.ExecuteNonQuery();
+
+    SqlDataReader readForumInfo = cmd.ExecuteReader();
+
+    while (readForumInfo.Read())
+    {
+        id = (int)readForumInfo[0];
+        bloggerName = (string)readForumInfo[1];
+        title = (string)readForumInfo[2];
+        subHeaing = (string)readForumInfo[3];
+
+       
+    <div class="row">
+        <a href="../ForumTopic/ForumTopic?id=@id" data-id=@id><u><b>Title: @title</b></u></a>
+
+        <br />
+        @subHeaing
+        <br />
+        <b>Posted By: @bloggerName</b>
+        <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+        <div class="col-lg-12"></div>
+    </div>
+    }
+}

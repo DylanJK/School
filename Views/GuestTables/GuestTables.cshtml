@@ -1,0 +1,126 @@
+﻿@using WeddingsForYou.Models;
+@using System.Data.SqlClient;
+@using System.Configuration;
+@model WeddingsForYou.Models.WeddingTables
+@{
+    ViewBag.Title = "GuestTables";
+}
+
+<h2>GuestTables</h2>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#showTablesTextBox").hide();
+        });
+
+        $("#addTable").click(function () {
+            $("#showTablesTextBox").show(200);
+        });
+
+    </script>
+}
+@{
+    var user = Session["user"] as User;
+}
+
+
+@{
+
+    if (user != null)
+    {
+        int id = 0;
+        int tableID = 0;
+        string tableName = "";
+        int seatsPerTable = 0;
+        
+        string[] lettersAndNumbers = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
+                                 "r","s","t","u","v","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M",
+                                 "N","O","P","Q","R","S","T","U","V","X","Y","Z"};
+
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WeddingsForYouDB"].ConnectionString);
+
+        con.Open();
+        SqlCommand cmd = null;
+
+        cmd = new SqlCommand("SELECT * FROM WeddingTables WHERE Id=" + @user.Id + "", con);
+
+        cmd.ExecuteNonQuery();
+
+        SqlDataReader readWeddingTablesInfo = cmd.ExecuteReader();
+
+        using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="col-lg-4">
+                    <b><u>Table Name</u></b>
+                </div>
+                <div class="col-lg-4">
+                    <b><u>Seats</u></b>
+                </div>
+
+                <div class="col-lg-4">
+                </div>
+            </div>
+
+            //Put All The Results from the Database into Variables
+            //So They Can Be called for Populating the interface
+            while (readWeddingTablesInfo.Read())
+            {
+                id = (int)readWeddingTablesInfo[0];
+                tableID = (int)readWeddingTablesInfo[1];
+                tableName = (string)readWeddingTablesInfo[2];
+                seatsPerTable = (int)readWeddingTablesInfo[3];
+
+               //Make it go through here and check if the value is not null and contains legal characters
+                //So we will no if to produce the result or not  
+                for (int i = 0; i < lettersAndNumbers.Length; i++)
+                {
+
+                    if (tableName.Contains(lettersAndNumbers[i]))
+                    {
+                <div class="row">
+                    <div class="col-lg-4">
+                        <b>@tableName</b>
+                    </div>
+                    <div class="col-lg-4">
+                        <b>@seatsPerTable</b>
+                    </div>
+                    <div class="col-lg-4">
+                        <a class="btn btn-default" href="../EditGuestTables/EditGuestTables?tableID=@tableID" data-id="@tableID">Edit</a>
+                        <button class="btn btn-default" type="submit" value="@tableID" name="Delete" id="Delete">Delete</button>
+
+                    </div>
+                    <hr style="height:1px;border:solid;color:black;background-color:black;" />
+                </div>
+    
+                    //Break out of the Forloop so it can go to the next row in the database
+                        break;
+                    }
+                }    
+
+            }
+            <div class="row">
+                <a class="btn btn-default" name="addTable" id="addTable">Add Table</a>
+            </div>
+        }
+    }
+}
+@using (Html.BeginForm())
+{    <div class="row">
+        <div id="showTablesTextBox">
+            <br />
+            <label>Enter Table Name</label>
+            @Html.TextBoxFor(m => m.TableName)
+            <br />
+            <label>Enter Seat Amount</label>
+            @Html.TextBoxFor(m => m.SeatAmount)
+            <input type="submit" value="Submit" />
+        </div>
+    </div>
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

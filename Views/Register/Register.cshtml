@@ -1,0 +1,85 @@
+﻿@model WeddingsForYou.Models.Register
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+@using (Html.BeginForm())
+{
+    <div>
+        <select id="userType" name="userType">
+            <option value="Customer">Customer</option>
+            <option value="Client">Client</option>
+        </select>
+    </div>
+    
+    <div>@Html.LabelFor(m=>m.Login)</div>
+    
+    <div>
+        @Html.TextBoxFor(m=>m.Login)
+        @Html.ValidationMessageFor(m=>m.Login)
+    </div>
+    
+    <div>@Html.LabelFor(m=>m.Name)</div>
+    
+    <div>
+        @Html.TextBoxFor(m=>m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    
+    <div>@Html.LabelFor(m=>m.Password)</div>
+    
+    <div>
+        @Html.PasswordFor(m=>m.Password)
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+    
+    <div>@Html.LabelFor(m=>m.ReEnterPassword)</div>
+    
+    <div>
+        @Html.PasswordFor(m=>m.ReEnterPassword, new { @class = "input_box", id = "txtRePassword",oncopy = "return false", onpaste = "return false" } ) @*Prevents user from being able to copy paste*@
+        @Html.ValidationMessageFor(m => m.ReEnterPassword)
+        @Html.TextBoxFor(m => m.ReEnterPassword, new { @class = "input_box", id = "txtRePassword",oncopy = "return false", onpaste = "return false" } )
+        
+    </div>
+    
+    <div>@Html.LabelFor(m=>m.Email)</div>
+    
+    <div>
+        @Html.TextBoxFor(m=>m.Email)
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    
+    <input type="submit" value="Register" />
+}
+@if(!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}
+
+<input type="password" name="mypass" />
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('PasswordFor').bind('copy paste cut', function (e) {
+            e.preventDefault();
+            alert('cut, copy & paste options are disabled !!');
+        })
+    })
+
+
+    $(document).ready(function () {
+        $('PasswordFor').live('copy paste cut', function (e) {
+            e.preventDefault();
+            alert('cut, copy & paste options are disabled !!');
+        })
+    })
+
+    document.getElementById("PasswordFor").onpaste = function () {
+        return false;
+    }
+
+</script>

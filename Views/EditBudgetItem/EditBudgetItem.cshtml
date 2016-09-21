@@ -1,0 +1,42 @@
+﻿@using System.Data.SqlClient;
+@using System.Configuration;
+@using WeddingsForYou.Models;
+@model WeddingsForYou.Models.Budget
+@{
+    ViewBag.Title = "Edit Budget Item";
+}
+
+<h2>EditBudgetItem</h2>
+
+@using (Html.BeginForm())
+{
+    <div><label>Description</label></div>
+    <div>
+        @Html.TextBoxFor(m => m.description)
+        @Html.ValidationMessageFor(m => m.description)
+    </div>
+
+    <div><label>Cost</label></div>
+    <div>
+        @Html.TextBoxFor(m => m.cost)
+        @Html.ValidationMessageFor(m => m.cost)
+    </div>
+
+
+    <div><label>Paid Or Not</label></div>
+    <div>
+        <select id="paid" name="paid">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select> 
+    </div>
+
+    <br />
+    <input type="submit" value="Submit" />
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

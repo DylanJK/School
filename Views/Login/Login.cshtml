@@ -1,0 +1,48 @@
+﻿@model WeddingsForYou.Models.User
+
+@{
+    ViewBag.Title = "Login";
+}
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#showTextBoxes").hide();
+        });
+
+        $("#forgotPassword").click(function () {
+            $("#showTextBoxes").show(200);
+        });
+
+    </script>
+
+}
+<h2>Login</h2>
+@using (Html.BeginForm())
+{
+    
+    <div>@Html.Label("Login Name:")</div>
+    <div> @Html.TextBox("Name")</div>
+    <div>@Html.Label("Password:")</div>
+    <div>@Html.TextBox("Password")</div>
+    <br />
+    <input type="submit" value="Login" />
+    <br />
+    <a name="forgotPassword" id="forgotPassword">Forgot Your Password</a>
+
+
+
+<div class="row">
+    <div id="showTextBoxes">
+        <br />
+        <label>Enter Your Email Address</label>
+        <input type="text" name="emailAddress" id="emailAddress" />
+        <button type="submit" name="sendPassword" id="sendPassword">Submit</button>
+    </div>
+</div>
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

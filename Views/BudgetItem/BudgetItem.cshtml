@@ -1,0 +1,42 @@
+﻿@model WeddingsForYou.Models.Budget
+@{
+    ViewBag.Title = "Add New Item For The Budget";
+}
+
+<h2>Add New Item For The Budget</h2>
+
+@using (Html.BeginForm())
+{
+    <div><label>Description</label></div>
+    <div>    
+         @Html.TextAreaFor(m => m.description)
+         @Html.ValidationMessageFor(m => m.description)
+    </div>
+
+    <div>@Html.LabelFor(m => m.cost)</div>
+    <div> 
+        @Html.TextBoxFor(m => m.cost)
+        @Html.ValidationMessageFor(m => m.cost)
+    </div>
+
+    
+    <div><label>Paid Or Not</label></div>
+    <div>
+        <select id="paid" name="paid">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+
+        </select> 
+    </div>
+
+
+
+    <br />
+    <input type="submit" value="Submit" />
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}

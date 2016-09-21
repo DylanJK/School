@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "CountDown";
+}
+
+<h2>CountDown</h2>
+
+@using (Html.BeginForm())
+{
+    <div><label>Enter Year</label></div>
+    <div>
+        <input type="text" name="year" id="year" />
+    </div>
+
+    <div><label>Enter Month</label></div>
+    <div>
+        <input type="text" name="month" id="month" />
+    </div>
+    
+    <div><label>Enter Day</label></div>
+    <div>
+        <input type="text" name="day" id="day" />
+    </div>
+    
+    <div><label>Enter Hour of Day</label></div>
+    <div>
+        <input type="text" name="hour" id="hour" />
+    </div>
+    
+    <div><label>Enter Minute of Day</label></div>
+    <div>
+        <input type="text" name="minute" id="minute" />
+    </div>
+
+
+    <br />
+    <input type="submit" value="Submit" />
+}
+@if (!String.IsNullOrEmpty(ViewBag.Status))
+{
+    <div>
+        @ViewBag.Status
+    </div>
+}
+
