@@ -1,0 +1,5 @@
+c:\users\dylan\documents\visual studio 2013\Projects\School\clsSchool\bin\Debug\clsSchool.dll
+c:\users\dylan\documents\visual studio 2013\Projects\School\clsSchool\bin\Debug\clsSchool.pdb
+c:\users\dylan\documents\visual studio 2013\Projects\School\clsSchool\obj\Debug\clsSchool.dll
+c:\users\dylan\documents\visual studio 2013\Projects\School\clsSchool\obj\Debug\clsSchool.pdb
+C:\Users\Dylan\Documents\Visual Studio 2013\Projects\School\clsSchool\obj\Debug\clsSchool.csprojResolveAssemblyReference.cache

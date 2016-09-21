@@ -1,0 +1,194 @@
+﻿body {
+    font-family: "Helvetica Neue Custom","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-color: #ffffff;
+    color: #585858;
+    font-size: 13px;
+    margin: 0px;
+    padding: 0px;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+
+a, a:visited, a:active {
+    text-decoration: none;
+    color: #585858;
+}
+
+    a img {
+        border: none;
+    }
+
+.logincontainer {
+    margin: 0px auto;
+    width: 1240px;
+    height: 750px;
+    background-color: #ffffff;
+}
+
+.logintext {
+    color: #8E8E8E;
+    font-size: 18px;
+    font-weight: normal;
+    position: relative;
+    text-align: left;
+    padding: 20px 0px 0px 20px;
+    text-decoration: none;
+}
+
+.loginbox {
+    margin: 0px auto;
+    text-align: left;
+    width: 450px;
+    background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+    height: auto;
+    /*border-radius: 3px;*/
+    border: 1px solid #C1CAD0;
+}
+
+.dialogtitlebar {
+    padding: 8px 8px 12px 8px;
+    text-align: left;
+    /*border-top-left-radius: 3px;
+    border-top-right-radius: 3px;*/
+    background-color: #4897CC;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.dialogpanel {
+    padding: 8px;
+}
+
+.h1 {
+    color: #ffffff;
+    font-size: 13px;
+    padding: 6px 0px 0px 16px;
+    text-align: left;
+}
+
+.hrlight {
+    margin: 16px 8px 16px 8px;
+    background-color: #d3d3d3;
+    height: 1px;
+    text-align: left;
+}
+
+.aligncenter {
+    text-align: center;
+    padding: 5px;
+}
+
+.textbox {
+    font-size: 13px;
+    color: #585858;
+    border: 1px solid #D2D2D2;
+    padding: 10px;
+}
+
+    .textbox:focus {
+        border-color: #4897CC;
+        box-shadow: 0px 0px 1px #4897CC;
+        outline: none;
+    }
+
+.space8 {
+    height: 8px;
+    width: 100%;
+}
+
+.space16 {
+    height: 16px;
+    width: 100%;
+}
+
+.space12 {
+    height: 12px;
+    width: 100%;
+}
+
+.space32 {
+    height: 16px;
+    width: 100%;
+}
+
+
+.buttonnav {
+    font-size: 13px;
+    padding: 8px 12px 8px 12px;
+    vertical-align: middle;
+    text-decoration: none;
+    border: 1px solid #289D4F;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.12), inset 1px 1px 0px rgba(255,255,255,0.2);
+    background-color: #32C563;
+    color: #ffffff;
+}
+
+    .buttonnav:hover {
+        background-color: #26B756;
+        border: 1px solid #18833A;
+        color: #ffffff;
+        cursor: pointer;
+    }
+
+
+.noticetext {
+    color: #3d3d3d;
+    font-size: 13px;
+    padding: 8px;
+    text-align: center;
+}
+
+
+.lblink {
+    font-size: 13px;
+    text-decoration: none;
+    color: #3C3C3C;
+}
+
+    .lblink a, a:visited, a:active {
+        text-decoration: none;
+        color: #3d3d3d;
+    }
+
+.clearfix {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    font-size: 0;
+}
+
+
+.noticeerror {
+    text-align: left;
+    margin: 12px auto;
+    position: relative;
+    padding: 12px;
+    background: #FFCECE;
+    border: 1px solid #D35757;
+    /*border-radius: 4px;*/
+    color: #282828;
+    cursor: pointer;
+}
+
+
+.noticebutton {
+    width: 16px;
+    cursor: pointer;
+}
+
+.noticeimage {
+    text-decoration: none;
+    border: none;
+    background-position: center;
+    background: url("../images/close.png") no-repeat center;
+}

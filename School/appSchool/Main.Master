@@ -1,0 +1,61 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="appSchool.Main" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+
+
+
+    <script src='//code.jquery.com/jquery-2.1.1.min.js' type='txt/javascript'></script>
+
+    <script src='//code.jquery.com/jqueryui/1.9.1/jquery-ui.min.js' type='txt/javascript'></script>
+
+    <%-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>--%>
+
+    <link href="Styles/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+    <link href="Styles/main.css" rel="stylesheet" />
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <%--  --%>
+    <form id="form1" runat="server">
+        <div class="space16"></div>
+        <asp:ScriptManager ID="scr1" runat="server"></asp:ScriptManager>
+        <div class="space4" style=" width:10px"></div>
+        <div class="space32"></div>
+        <table style="width: 1200px; margin: 0px auto;">
+            <tr>
+                <td>
+                    <asp:HyperLink runat="server" Width="120px" CssClass="buttonnav" NavigateUrl="~/setup/student.aspx">Student</asp:HyperLink>
+                    <asp:HyperLink runat="server" Width="120px" CssClass="buttonnav" NavigateUrl="~/setup/enrollment.aspx">Enrolment</asp:HyperLink>
+                    <asp:HyperLink runat="server" Width="120px" CssClass="buttonnav" NavigateUrl="~/setup/course.aspx">Course Info</asp:HyperLink>
+                    <asp:HyperLink runat="server" Width="120px" CssClass="buttonnav" NavigateUrl="~/setup/courseclass.aspx">Class</asp:HyperLink>
+                    <asp:HyperLink runat="server" Width="120px" CssClass="buttonnav" NavigateUrl="~/setup/teacher.aspx">Teacher</asp:HyperLink>
+                    <asp:HyperLink runat="server" Width="120px" CssClass="buttonnav" NavigateUrl="~/setup/staff.aspx">Staff</asp:HyperLink>
+                </td>
+                <td>
+                    <%--<img src="Images/little-dippers-swim-school-logo.jpg" height:="0px" width:="0px" />--%>
+                </td>
+                <td style="width: 204px; text-align: right;">
+                    <asp:TextBox ID="txtSearch" CssClass="textbox" Placeholder="Student Name" Width="200px" runat="server"></asp:TextBox>
+                </td>
+                <td style="width: 104px; text-align: right;">
+                    <asp:Button ID="btnSearch" CssClass="buttontool" Width="100px" runat="server" Text="Search" OnClick="btnSearch_Click" />
+                </td>
+            </tr>
+        </table>
+
+        <div class="space32"></div>
+        <div>
+            <asp:ContentPlaceHolder ID="cph1" runat="server">
+            </asp:ContentPlaceHolder>
+            </div>
+    </form>
+</body>
+</html>

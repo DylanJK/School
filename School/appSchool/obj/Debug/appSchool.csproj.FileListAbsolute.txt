@@ -1,0 +1,10 @@
+c:\users\dylan\documents\visual studio 2013\Projects\School\appSchool\bin\appSchool.dll.config
+c:\users\dylan\documents\visual studio 2013\Projects\School\appSchool\bin\appSchool.dll
+c:\users\dylan\documents\visual studio 2013\Projects\School\appSchool\bin\appSchool.pdb
+c:\users\dylan\documents\visual studio 2013\Projects\School\appSchool\bin\clsSchool.dll
+c:\users\dylan\documents\visual studio 2013\Projects\School\appSchool\bin\clsSchool.pdb
+c:\users\dylan\documents\visual studio 2013\Projects\School\appSchool\obj\Debug\appSchool.csprojResolveAssemblyReference.cache
+c:\users\dylan\documents\visual studio 2013\Projects\School\appSchool\obj\Debug\appSchool.dll
+c:\users\dylan\documents\visual studio 2013\Projects\School\appSchool\obj\Debug\appSchool.pdb
+C:\Users\Dylan\Documents\Visual Studio 2013\Projects\School\appSchool\bin\dpUtilityLib.dll
+C:\Users\Dylan\Documents\Visual Studio 2013\Projects\School\appSchool\bin\dpUtilityLib.pdb
